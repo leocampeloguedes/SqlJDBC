@@ -2,6 +2,10 @@ package model;
 
 public class Userposjava {
 	
+	@Override
+	public String toString() {
+		return "Userposjava [id=" + id + ", nome=" + nome + ", email=" + email + "]";
+	}
 	private Long id;
 	private String nome;
 	private String email;
