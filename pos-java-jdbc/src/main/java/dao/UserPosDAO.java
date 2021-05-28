@@ -20,11 +20,11 @@ public class UserPosDAO {
 	
 	public void salvar (Userposjava userposjava) {
 		try {
-			String sql = "insert into userposjava(id, nome, email) values (?,?,?)";
+			String sql = "insert into userposjava(nome, email) values (?,?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
-			insert.setLong(1,  userposjava.getId());
-			insert.setString(2, userposjava.getNome());
-			insert.setString(3, userposjava.getEmail());
+			//insert.setLong(1,  userposjava.getId());
+			insert.setString(1, userposjava.getNome());
+			insert.setString(2, userposjava.getEmail());
 			insert.execute();
 			connection.commit();
 		} catch (Exception e) {
@@ -67,10 +67,10 @@ public class UserPosDAO {
 		
 		
 		while (resultado.next()) {
-			Userposjava userposjava = new Userposjava();
-			userposjava.setId(resultado.getLong("id"));
-			userposjava.setNome(resultado.getString("nome"));
-			userposjava.setEmail(resultado.getString("email"));
+			
+			retorno.setId(resultado.getLong("id"));
+			retorno.setNome(resultado.getString("nome"));
+			retorno.setEmail(resultado.getString("email"));
 			
 		}
 		
@@ -82,7 +82,7 @@ public class UserPosDAO {
 	public void atualizar(Userposjava userposjava) {
 		try {
 			
-			String sql = "update userposjava set nome=? where id = " + userposjava.getId();	
+			String sql = "update userposjava set nome = ? where id = " + userposjava.getId();	
 			
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, userposjava.getNome());
@@ -101,9 +101,36 @@ public class UserPosDAO {
 		
 	
 	}
+	
+	public void deletar(Long id) {
+		try {
 			
+			String sql = "delete from  userposjava where id = " + id;	
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.execute();
+			connection.commit();
+			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
 	
-	
+
 	
 
 }
+/*SEQUENCIADOR PARA O POSTGRE
+ * create sequence usersequence
+ * increment 1
+ * minvalue 1
+ * maxvalue 9223372036854775807
+ * start 7;
+ * 
+ * alter table userposjava alter column id set default nextval('usersequence'::regclass);
+ * */
