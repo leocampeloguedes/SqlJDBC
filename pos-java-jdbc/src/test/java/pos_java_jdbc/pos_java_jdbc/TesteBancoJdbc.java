@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import conexaojdbc.SingleConnection;
 import dao.UserPosDAO;
+import model.BeanUserFone;
+import model.Telefone;
 import model.Userposjava;
 
 public class TesteBancoJdbc {
@@ -16,8 +18,8 @@ public class TesteBancoJdbc {
 		Userposjava userposjava = new Userposjava();
 		
 		//userposjava.setId(8L);
-		userposjava.setNome("Maria Ribeiro");
-		userposjava.setEmail("maria@mail.com");
+		userposjava.setNome("João da Silva");
+		userposjava.setEmail("sailvajoao@mail.com");
 		
 		
 		userPosDao.salvar(userposjava);
@@ -75,7 +77,7 @@ public class TesteBancoJdbc {
 		try {
 			UserPosDAO dao = new UserPosDAO();
 			
-			dao.deletar(11L);
+			dao.deletar(9L);
 			//System.out.println(objetoBanco.getNome());
 			
 		} catch (Exception e) {
@@ -83,5 +85,32 @@ public class TesteBancoJdbc {
 		}
 	}
 	
+	@Test
+	public void testeInsertTelefone(){
+		Telefone telefone = new Telefone();
+		telefone.setNumero("(98) 97887 6787");
+		telefone.setTipo("Residencial");
+		telefone.setUsuario(18L);
+		
+		UserPosDAO dao = new UserPosDAO();
+		dao.salvarTelefone(telefone);
+	}
+	
+	@Test
+	public void testeCarregaFoneUser() {
+		UserPosDAO dao = new UserPosDAO();
+		
+		List<BeanUserFone> beanUserFones = dao.listaUserFone(14L);
+		
+		for(BeanUserFone beanUserFone : beanUserFones) {
+			System.out.println(beanUserFone + "\n");			
+		}
+	}
+	
+	@Test
+	public void testeDeleteUserFone() {
+		UserPosDAO dao = new UserPosDAO();
+		dao.deleteFonesPorUser(13L);
+	}
 
 }
